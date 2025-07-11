@@ -841,7 +841,11 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
 	u32 bus_flags;
 	int err;
 
-	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
+//    pr_info("### [panel-simple] Probing panel: %pOF\n", dev->of_node);
+    pr_alert("### PROBE_HIT panel-simple %pOF\n", dev->of_node);
+    dev_err(dev, "### panel-simple probe start, node=%pOF\n", dev->of_node);
+
+    panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
 	if (!panel)
 		return -ENOMEM;
 

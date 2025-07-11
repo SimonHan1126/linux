@@ -1000,9 +1000,16 @@ static int dw_mipi_dsi_rockchip_bind(struct device *dev,
 	struct device *second;
 	int ret;
 
+    dev_err(dev, "### rk-dsi bind[A] id=%d, lanes=%u, node=%pOF\n",
+            dsi->id,
+            0,
+            dev->of_node);
+
 	second = dw_mipi_dsi_rockchip_find_second(dsi);
 	if (IS_ERR(second))
 		return PTR_ERR(second);
+
+    dev_err(dev, "### rk-dsi bind[B] looking for panel/bridge\n");
 
 	if (second) {
 		/* we are the slave in dual-DSI */
@@ -1017,11 +1024,18 @@ static int dw_mipi_dsi_rockchip_bind(struct device *dev,
 		put_device(second);
 	}
 
+    dev_err(dev, "### rk-dsi bind[C] looking for panel/bridge\n");
+
 	if (dsi->is_slave)
 		return 0;
 
+
 	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, -1,
 					  &dsi->panel, &dsi->bridge);
+
+    dev_err(dev, "### rk-dsi bind[D] panel=%p bridge=%p – continue\n",
+            dsi->panel, dsi->bridge);
+
 	if (ret) {
 		dev_err(dsi->dev, "failed to find panel or bridge: %d\n", ret);
 		return ret;
@@ -1119,6 +1133,8 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
 	const struct rockchip_dw_dsi_chip_data *cdata =
 				of_device_get_match_data(dev);
 	int ret, i;
+
+    dev_err(&pdev->dev, "### rk-dsi probe()\n");
 
 	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
 	if (!dsi)
@@ -1218,6 +1234,10 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
 	dsi->pdata.max_data_lanes = dsi->cdata->max_data_lanes;
 	dsi->pdata.phy_ops = &dw_mipi_dsi_rockchip_phy_ops;
 	dsi->pdata.priv_data = dsi;
+
+    dev_err(&pdev->dev,
+            "### rk-dsi probe() dsi->cdata->soc_type = %d\n",
+            dsi->cdata->soc_type);
 
 	if (dsi->cdata->soc_type == RK3568)
 		dsi->pdata.stream_standby = dw_mipi_dsi_rockchip_stream_standby;
