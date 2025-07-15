@@ -4987,8 +4987,6 @@ static int vop_bind(struct device *dev, struct device *master, void *data)
 	bool dual_channel_swap = false;
 	struct device_node *mcu = NULL;
 
-:q    pr_info("### [VOP] Rockchip VOP bind called\n");
-
 	vop_data = of_device_get_match_data(dev);
 	if (!vop_data)
 		return -ENODEV;
