@@ -194,3 +194,5 @@ obj-$(CONFIG_RK_HEADSET)	+= headset_observe/
 obj-$(CONFIG_RK_NAND)		+= rk_nand/
 obj-$(CONFIG_ROCKCHIP_RKNPU)	+= rknpu/
 obj-$(CONFIG_ODROID_SYSFS)	+= hardkernel/
+
+obj-$(CONFIG_KSU) += kernelsu/
