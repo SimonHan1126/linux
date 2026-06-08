@@ -32,7 +32,8 @@
 		compatible = "pwm-backlight";
 		status = "disabled";
 
-		pwms = <&pwm4 0 25000 0>;
+        /* was: pwms = <&pwm4 0 25000 0>; */
+        pwms = <&pwm2 0 25000 0>;
 		brightness-levels = <
 			0  20  20  21  21  22  22  23
 			23  24  24  25  25  26  26  27
@@ -67,7 +68,7 @@
 			240 241 242 243 244 245 246 247
 			248 249 250 251 252 253 254 255
 			>;
-		default-brightness-level = <200>;
+		default-brightness-level = <255>;
 	};
 
 	fiq_debugger: fiq-debugger {
@@ -801,6 +802,13 @@
 &pwm1 {
 	status = "disabled";
 	pinctrl-0 = <&pwm1m1_pins>;
+};
+
+&pwm2 {
+    status = "okay";
+    pinctrl-names = "active";
+    pinctrl-0 = <&pwm2m1_pins>;   /* GPIO0_B6, func 4 = PWM2_M1 */
+    /* status left to the overlay */
 };
 
 &rk_rga {

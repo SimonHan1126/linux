@@ -18,7 +18,7 @@
 	};
 
 	fragment@1 {
-		target = <&pwm4>;
+    target = <&pwm2>;        /* was <&pwm4> */
 
 		__overlay__ {
 			status = "okay";
