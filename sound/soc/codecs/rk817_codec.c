@@ -715,6 +715,13 @@ static int rk817_playback_path_put(struct snd_kcontrol *kcontrol,
 	struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
 	struct rk817_codec_priv *rk817 = snd_soc_component_get_drvdata(component);
 
+    /* Board wiring: onboard speaker is on HPOUT, SPKOUT is unpopulated.
+	 * Remap the HAL's SPK route to HP_NO_MIC so the speaker is audible
+	 * and the external-amp GPIO stays off. */
+    if (ucontrol->value.integer.value[0] == SPK_PATH) {
+        ucontrol->value.integer.value[0] = HP_NO_MIC;
+    }
+
 	if (rk817->playback_path == ucontrol->value.integer.value[0]) {
 		DBG("%s : playback_path is not changed!\n",
 		    __func__);
